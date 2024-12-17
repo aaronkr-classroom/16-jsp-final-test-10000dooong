@@ -25,8 +25,54 @@
 
     <!-- JS 파일에 대한 script테그를 수정하십시오 -->
     <script defer src="${pageContext.request.contextPath}/public/js/functions.js"></script>
+    
+    <script>
+      function checkForm() {
+        const form = document.Member;
+
+        // 입력 필드 값 가져오기
+        const id = form.id.value;
+        const name = form.name.value;
+        const passwd = form.passwd.value;
+        const phone = form.phone1.value + form.phone2.value + form.phone3.value;
+        const email = form.email.value;
+
+        // 정규 표현식
+        const idRegex = /^[a-zA-Z0-9]{4,12}$/; // 아이디: 영문/숫자 4~12자리
+        const nameRegex = /^[가-힣a-zA-Z]+$/; // 이름: 한글/영문만 허용
+        const passwdRegex = /^[0-9]+$/; // 비밀번호: 숫자만
+        const phoneRegex = /^01[0-9]\d{3,4}\d{4}$/; // 전화번호: 010xxxxxxxx
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 유효성 검사
+
+        // 유효성 검사 실행
+        if (!idRegex.test(id)) {
+          alert("아이디는 4~12자의 영문자 또는 숫자여야 합니다.");
+          return false;
+        }
+        if (!nameRegex.test(name)) {
+          alert("이름은 한글 또는 영문만 입력해 주세요.");
+          return false;
+        }
+        if (!passwdRegex.test(passwd)) {
+          alert("비밀번호는 숫자만 입력해 주세요.");
+          return false;
+        }
+        if (!phoneRegex.test(phone)) {
+          alert("휴대전화 번호는 숫자만 입력해 주세요.");
+          return false;
+        }
+        if (!emailRegex.test(email)) {
+          alert("올바른 이메일 형식을 입력해 주세요.");
+          return false;
+        }
+
+        // 모든 검사 통과 시 폼 제출
+        form.submit();
+      }
+    </script>
   </head>
 
+	
   <body>
     <!-- HEADER -->
 
@@ -123,6 +169,40 @@
           </div>
         </div>
       </div>
+      <!-- 간단한 로그인 폼 -->
+      <div class="container col-md-6 mt-5">
+      <h3 class="mb-3">Login</h3>
+      <form action="login.jsp" method="post" class="p-4 border rounded bg-light">
+      <!-- 아이디 입력 -->
+      <div class="form-floating mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="loginId"
+        name="loginId"
+        placeholder="Enter your ID"
+        required
+      />
+      <label for="loginId">ID</label>
+    </div>
+
+    <!-- 비밀번호 입력 -->
+    <div class="form-floating mb-3">
+      <input
+        type="password"
+        class="form-control"
+        id="loginPassword"
+        name="loginPassword"
+        placeholder="Enter your Password"
+        required
+      />
+      <label for="loginPassword">Password</label>
+   	</div>
+
+   	 <!-- 로그인 버튼 -->
+  	  <button class="btn btn-primary w-100" type="submit">Login</button>
+  	</form>
+	</div>
     </main>
 
     <!-- FOOTER -->
